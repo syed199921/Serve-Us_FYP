@@ -8,6 +8,7 @@ let bookAppointment = (req, res) =>{
     let customer = customers.find((customer) => customer.id == customer_id)
 
     let appointment = {
+        id: appointments.length + 1,
         technician: technician,
         customer: customer,
         date: date,
@@ -29,7 +30,16 @@ let viewAppointments = (req, res) => {
 
 }
 
+let cancelAppointment = (req, res) => {
+    let {appointment_id} = req.body
+    let appointment = appointments.find((appointment) => appointment.id == appointment_id)
+    let index = appointments.indexOf(appointment)
+    appointments.splice(index, 1)
+    return res.json({message: "Appointment cancelled", appointments: appointments})
+}
+
 module.exports = {
     bookAppointment,
-    viewAppointments
+    viewAppointments,
+    cancelAppointment
 }
