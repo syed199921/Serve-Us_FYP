@@ -1,0 +1,26 @@
+[
+{
+        "id": 1,
+        "name": "John Doe",
+        "latitude":40.730610,
+        "longitude":-73.935242,
+        "reviews": ["I liked the work of the technician", "The technician was very professional"],
+        "rating": 9
+    },
+    {
+        "id": 2,
+        "name": "Charles Dickens",
+        "latitude": 40.730610,
+        "longitude": -73.935242,
+        "reviews": ["The technician was very late. He was very rude as well", "I liked the technician"],
+        "rating": 6 
+    },
+    {
+        "id": 3,
+        "name": "Thomas Hardy",
+        "latitude": 40.730610,
+        "longitude": -73.935242,
+        "reviews": ["The technician did not know what he was doing", "The technician didn't have the right tools"],
+        "rating": 3
+    }
+]
