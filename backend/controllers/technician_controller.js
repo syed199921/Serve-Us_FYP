@@ -64,8 +64,22 @@ return res.json({reviewScores: reviewScores})
 
 }
 
+let recommendTechnicians = (req, res) =>{
+    let {review_scores} = req.body
+    let topTechnicians = review_scores.sort((a, b) => {
+        return b["reviewScore"] - a["reviewScore"]
+    
+    })
+
+    // let recommendedTechnicians = 
+
+
+    return res.json({"recommendTechnicians": topTechnicians.slice(0, 3)})
+}
+
 module.exports = {
     getNearbyTechnicians,
     setLocation,
-    generateReviewScore
+    generateReviewScore,
+    recommendTechnicians
 }
