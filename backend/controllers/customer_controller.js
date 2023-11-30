@@ -12,6 +12,8 @@ let setLocation = (req, res) => {
     return res.json({message: "Location updated", customers: customers})
 }
 
+
+
 module.exports = {
     setLocation
 }

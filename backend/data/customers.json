@@ -1,12 +1,12 @@
 [
-    {
-        "id": 1,
-        "name": "Ali",
-        "user-type": "customer",
-        "latitude":40.730610,
-        "longitude":-73.935242
-
-    },
+    
+        {
+            "id": 1,
+            "name": "Syed Zulkifal Banuri",
+            "user-type": "customer",
+            "latitude": 40.730610,
+            "longitude": -73.935242
+        },
     {
         "id": 2,
         "name": "Usman",

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const axios = require('axios')
 const technician_router = require('./routes/technician_routes')
 const customer_router = require('./routes/customer_routes')
+const appointment_router = require('./routes/appointment_routes')
 
 const app = express()
 //middleware
@@ -75,11 +76,7 @@ app.get('/technicians', (req, res) => {
 
 app.use('/technician', technician_router)
 app.use('/customer', customer_router)
-
-app.get('/reviewscore', (req, res) => {
-    let {technicians} = req.body
-
-})
+app.use('/appointment', appointment_router)
 
 
 
