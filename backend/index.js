@@ -4,6 +4,10 @@ const axios = require('axios')
 const technician_router = require('./routes/technician_routes')
 const customer_router = require('./routes/customer_routes')
 const appointment_router = require('./routes/appointment_routes')
+// const connectToDB = require('./mongodb/db_connection')
+const mongoose = require('mongoose');
+//configure dotenv 
+require('dotenv').config()
 
 const app = express()
 //middleware
@@ -88,8 +92,19 @@ let generateReviewScore = (technicians) => {
 
 // generateReviewScore(technicians)
 
-app.listen(PORT, () =>{
-    console.log(`Server running on port ${PORT}`)
-    // generateReviewScore(technicians)
+app.listen(process.env.PORT, () =>{
+    console.log(`Server running on port ${process.env.PORT}`)
+   
+        mongoose.connect(process.env.MONGODB_URI)
+        
+        let connection = mongoose.connection
+        
+        connection.on('error', () =>{
+            console.log("Connection to database failed")
+        })
+        
+        connection.once('open', () =>{
+            console.log("Connected to database")
+        })
     
 })
