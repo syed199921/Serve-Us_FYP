@@ -1,17 +1,28 @@
 const mongoose = require("mongoose")
+const Service = require("./service_model")
 
 const portfolioSchema = new mongoose.Schema({
     professionalSummary: {
         type: String
     },
-    services: [{
-        serviceDescription:{
-            type: String
-        },
-        pricing:{
-         type: Number
+    projects: [
+        {
+            title: {
+                type: String,
+                required: true
+            },
+            description: {
+                type: String
+            },
+            images: {
+                type: [String]
+            },
+            testimonials: {
+                type: [String]
+            }
         }
-}]
+    ],
+    services: [Service.Schema]
     
 })
 

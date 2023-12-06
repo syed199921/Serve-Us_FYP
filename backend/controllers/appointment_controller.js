@@ -55,7 +55,7 @@ let viewAppointments = (req, res) => {
 
 //Customer viewing appointments
 
-// let viewAppointments = async (req, res) => {
+// let viewCustomerAppointments = async (req, res) => {
 //     let {customer_id} = req.body;
 //     try {
 //         let customerAppointments = await Appointment.find({customer: customer_id});
@@ -76,7 +76,7 @@ let viewAppointments = (req, res) => {
 // };
 
 //Technician viewing appointments
-// let viewAppointments = async (req, res) => {
+// let viewTechnicianAppointments = async (req, res) => {
 //     let {technician_id} = req.body;
 //     try {
 //         let technicianAppointments = await Appointment.find({technician: technician_id});
