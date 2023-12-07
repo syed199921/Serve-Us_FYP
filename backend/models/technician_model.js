@@ -5,6 +5,10 @@ const technicianSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    technicianType: {
+        type: String,
+        required: true
+    },
     dateOfBirth: {
         type: String
     },
@@ -14,6 +18,10 @@ const technicianSchema = new mongoose.Schema({
     },
     address: {
         type: String
+    },
+    portfolio: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Portfolio'
     }
     
 })
