@@ -1,4 +1,6 @@
-let createUser = async (req, res) => {
+const User = require('../models/user_model')
+
+let signUp = async (req, res) => {
     let {userId, role, contactNumber, password} = req.body
     let user = new User({
         userId: userId,
@@ -12,4 +14,8 @@ let createUser = async (req, res) => {
     }catch(err){
         res.json({err: err})
     }
+}
+
+module.exports = {
+    signUp
 }

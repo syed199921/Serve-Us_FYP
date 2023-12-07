@@ -6,8 +6,38 @@ const portfolioSchema = new mongoose.Schema({
     professionalSummary: {
         type: String
     },
-    projects: [Project.Schema],
-    services: [Service.Schema]
+    projects: [
+        {
+        title: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String
+        },
+        images: {
+            type: [String]
+        },
+        testimonials: {
+            type: [String]
+        }
+    }
+    ],
+    services: [
+        {
+            title: {
+                type: String,
+                required: true
+            },
+            description: {
+                type: String
+            },
+            pricing: {
+                type: Number,
+                required: true
+            }
+        }
+    ]
     
 })
 
