@@ -1,19 +1,21 @@
 let customers = require('../data/customers.json')
+let Customer = require('../models/customer_model')
 
-let setLocation = (req, res) => {
-    let {latitude, longitude, id} = req.body
-    customers.forEach((customer) => {
-        if(customer.id == id){
-            customer.latitude = latitude
-            customer.longitude = longitude
-        }
-    })
+let getCustomer = async (req, res) => {
+    let {id} = req.body
 
-    return res.json({message: "Location updated", customers: customers})
+    let customer = null
+
+    try{
+        customer = await Customer.findById(id)
+    }
+    catch(err){
+        res.json({err: err.toString()})
+    }
+
+    res.json({customer: customer})
 }
 
-
-
 module.exports = {
-    setLocation
+    getCustomer
 }

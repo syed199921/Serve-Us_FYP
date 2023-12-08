@@ -7,11 +7,11 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['customer', 'technician'],
+        enum: ['Customer', 'Technician'],
         required: true
     },
     contactNumber : {
-        type: Number,
+        type: String,
         required: true
     },
     password: {
@@ -20,3 +20,5 @@ const userSchema = new mongoose.Schema({
     }
 
 })
+
+module.exports = mongoose.model("User", userSchema)

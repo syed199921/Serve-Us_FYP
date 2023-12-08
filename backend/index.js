@@ -4,12 +4,9 @@ const axios = require('axios')
 const technician_router = require('./routes/technician_routes')
 const customer_router = require('./routes/customer_routes')
 const appointment_router = require('./routes/appointment_routes')
+const user_router = require('./routes/user_routes')
+const portfolio_router = require('./routes/portfolio_routes')
 // const connectToDB = require('./mongodb/db_connection')
-
-
-
-// const Web3 = require('web3').default;
-// const web3 = new Web3('http://127.0.0.1:7545')
 
 
 
@@ -90,6 +87,8 @@ app.get('/technicians', (req, res) => {
 app.use('/technician', technician_router)
 app.use('/customer', customer_router)
 app.use('/appointment', appointment_router)
+app.use('/user', user_router)
+app.use('/portfolio', portfolio_router)
 
 
 
@@ -99,112 +98,24 @@ let generateReviewScore = (technicians) => {
     })
 }
 
-// generateReviewScore(technicians)
 
 app.listen(process.env.PORT, () =>{
     // incrementCount()
     console.log(`Server running on port ${process.env.PORT}`)
    
     
-        // mongoose.connect(process.env.MONGODB_URI)
+        mongoose.connect(process.env.MONGODB_URI)
         
-        // let connection = mongoose.connection
+        let connection = mongoose.connection
         
-        // connection.on('error', () =>{
-        //     console.log("Connection to database failed")
-        // })
+        connection.on('error', () =>{
+            console.log("Connection to database failed")
+        })
         
-        // connection.once('open', () =>{
-        //     console.log("Connected to database")
-        // })
+        connection.once('open', () =>{
+            console.log("Connected to database")
+        })
 
         
     
 })
-
-
-// let  incrementCount = async () => {
-//     const contractABI = [
-//         {
-//           "constant": true,
-//           "inputs": [],
-//           "name": "count",
-//           "outputs": [
-//             {
-//               "name": "",
-//               "type": "uint256"
-//             }
-//           ],
-//           "payable": false,
-//           "stateMutability": "view",
-//           "type": "function"
-//         },
-//         {
-//           "anonymous": false,
-//           "inputs": [
-//             {
-//               "indexed": false,
-//               "name": "method",
-//               "type": "string"
-//             },
-//             {
-//               "indexed": false,
-//               "name": "count",
-//               "type": "uint256"
-//             },
-//             {
-//               "indexed": false,
-//               "name": "caller",
-//               "type": "address"
-//             }
-//           ],
-//           "name": "Count",
-//           "type": "event"
-//         },
-//         {
-//           "constant": false,
-//           "inputs": [],
-//           "name": "increment",
-//           "outputs": [],
-//           "payable": false,
-//           "stateMutability": "nonpayable",
-//           "type": "function"
-//         },
-//         {
-//           "constant": false,
-//           "inputs": [],
-//           "name": "decrement",
-//           "outputs": [],
-//           "payable": false,
-//           "stateMutability": "nonpayable",
-//           "type": "function"
-//         },
-//         {
-//           "constant": true,
-//           "inputs": [],
-//           "name": "getCount",
-//           "outputs": [
-//             {
-//               "name": "",
-//               "type": "uint256"
-//             }
-//           ],
-//           "payable": false,
-//           "stateMutability": "view",
-//           "type": "function"
-//         }
-//       ]
-    
-//       const contractAddress = '0x7836622c9f4c3292312ab9DbaDc1FbE11754B01F'
-    
-//       const contract = new web3.eth.Contract(contractABI, contractAddress)
-    
-//       const accounts = await web3.eth.getAccounts()
-//       await contract.methods.increment().send({from: accounts[0]})
-    
-//     const count = await contract.methods.getCount().call()
-    
-//     console.log({count: Number(count)})
-    
-    
-    // }

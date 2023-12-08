@@ -9,7 +9,7 @@ const customerSchema = new mongoose.Schema({
         type: String
     },
     contactNumber: {
-        type: Number,
+        type: String,
         required: true
     },
     address: {
@@ -17,3 +17,5 @@ const customerSchema = new mongoose.Schema({
     }
     
 })
+
+module.exports = mongoose.model("Customer", customerSchema)

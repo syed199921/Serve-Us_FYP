@@ -1,7 +1,45 @@
 
 let technicians = require('../data/technicians.json')
-const Web3 = require('web3').default;
-const web3 = new Web3('http://127.0.0.1:7545')
+const Technician = require('../models/technician_model')
+const Portfolio = require('../models/portfolio_model')
+const User = require('../models/user_model')
+
+
+let getTechnician = async (req, res) => {
+    let {id} = req.body
+    let technician = null
+    try{
+        technician = await Technician.findById(id)
+    }catch(err){
+        return res.json({err: err.toString()})
+    }
+    return res.json({technician: technician})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function haversineDistance(lat1, lon1, lat2, lon2) {
     const radians = (degrees) => (degrees * Math.PI) / 180;
@@ -80,94 +118,12 @@ let recommendTechnicians = (req, res) =>{
     return res.json({"recommendTechnicians": topTechnicians.slice(0, 3)})
 }
 
-let  incrementCount = async () => {
-const contractABI = [
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "count",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": false,
-          "name": "method",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "name": "count",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "name": "caller",
-          "type": "address"
-        }
-      ],
-      "name": "Count",
-      "type": "event"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "increment",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [],
-      "name": "decrement",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [],
-      "name": "getCount",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    }
-  ]
 
-  const contractAddress = '0x7836622c9f4c3292312ab9DbaDc1FbE11754B01F'
-
-  const contract = new web3.eth.Contract(contractABI, contractAddress)
-
-//   const accounts = await web3.eth.getAccounts()
-
-const count = await contract.methods.getCount().call()
-
-console.log({count: count})
-
-
-}
 
 module.exports = {
     getNearbyTechnicians,
     setLocation,
     generateReviewScore,
-    recommendTechnicians
+    recommendTechnicians,
+    getTechnician
 }

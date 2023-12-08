@@ -7,13 +7,15 @@ const technicianSchema = new mongoose.Schema({
     },
     technicianType: {
         type: String,
-        required: true
+        enum: ['Plumber', 'Electrician'],
+        required: true,
+        
     },
     dateOfBirth: {
         type: String
     },
     contactNumber: {
-        type: Number,
+        type: String,
         required: true
     },
     address: {
@@ -25,3 +27,5 @@ const technicianSchema = new mongoose.Schema({
     }
     
 })
+
+module.exports = mongoose.model("Technician", technicianSchema)

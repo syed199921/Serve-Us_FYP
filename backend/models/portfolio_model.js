@@ -1,10 +1,9 @@
 const mongoose = require("mongoose")
-const Service = require("./service_model")
-const Project = require("./project_model")
+
 
 const portfolioSchema = new mongoose.Schema({
     professionalSummary: {
-        type: String
+        type: String,
     },
     projects: [
         {
@@ -18,9 +17,18 @@ const portfolioSchema = new mongoose.Schema({
         images: {
             type: [String]
         },
-        testimonials: {
-            type: [String]
-        }
+        testimonials:[
+            {
+                testimonial: {
+                    type: String,
+                    required: true
+                },
+                customer: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Customer'
+                }
+            }
+        ]
     }
     ],
     services: [
@@ -33,7 +41,7 @@ const portfolioSchema = new mongoose.Schema({
                 type: String
             },
             pricing: {
-                type: Number,
+                type: String,
                 required: true
             }
         }

@@ -1,11 +1,10 @@
 const express = require('express')
 const router = express.Router()
-
+const {getCustomer} = require('../controllers/customer_controller')
 //middleware
 router.use(express.json())
 
-const {setLocation} = require('../controllers/customer_controller')
+router.get('/get_customer', getCustomer)
 
-router.post('/location', setLocation)
 
 module.exports = router
