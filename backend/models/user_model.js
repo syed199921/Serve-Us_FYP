@@ -10,15 +10,20 @@ const userSchema = new mongoose.Schema({
         enum: ['Customer', 'Technician'],
         required: true
     },
-    contactNumber : {
+    contactNumber: {
         type: String,
         required: true
     },
     password: {
         type: String,
         required: true
+    },
+    latitude: {
+        type: Number
+    },
+    longitude: {
+        type: Number
     }
-
 })
 
 module.exports = mongoose.model("User", userSchema)

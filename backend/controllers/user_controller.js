@@ -2,6 +2,7 @@ const User = require('../models/user_model')
 const Portfolio = require('../models/portfolio_model')
 const Technician = require('../models/technician_model')
 const Customer = require('../models/customer_model')
+const axios = require('axios')
 
 let signUp = async (req, res) => {
     let {fullName, dateOfBirth, address, role, technicianType, contactNumber, password} = req.body
@@ -82,12 +83,66 @@ let signUp = async (req, res) => {
     
 }
 
+let getGeolocation = async () =>{
+    let ip = null
+    try{
+         await axios.get('http://ip-api.com/json').then(response => {
+            ip = response.data.query
+         })
+
+    
+
+    }catch(err){
+        return null
+    }
+    let location = null
+    try{
+     location = await axios.get(`http://ip-api.com/json/${ip}?fields=lat,lon`)
+     return location.data
+    }catch(err){
+        return null
+    
+    }
+    
+}
+
+let getIP = async (req, res) => {
+    let ip = null
+    try{
+         await axios.get('http://ip-api.com/json').then(response => {
+            ip = response.data.query
+         })
+
+            return res.json({ip: ip})
+    }catch(err){
+        return  res.json({err: err.toString()})
+    }
+}
+
 let logIn = async (req, res) =>{
     let {contactNumber, password} = req.body
+    let user = null
     try{
-        let user = await User.findOne({contactNumber: contactNumber, password: password})
-        return res.json({ "userId": user.id, "role": user.role})
+         user = await User.findOne({contactNumber: contactNumber, password: password})
+        //  return res.json({"User": user})
     } catch(err){
+        return res.json({err: err.toString()})
+    }
+
+    try{
+        let location = await getGeolocation()
+        user.latitude = location.lat
+        user.longitude = location.lon
+        // return res.json({location: location})
+    }catch(err){
+        return res.json({err: err.toString()})
+    }
+
+    try{
+        await user.save()
+        return res.json({user: user})
+    }
+    catch(err){
         return res.json({err: err.toString()})
     }
 
@@ -95,5 +150,7 @@ let logIn = async (req, res) =>{
 
 module.exports = {
     signUp,
-    logIn
+    logIn,
+    getGeolocation,
+    getIP
 }
