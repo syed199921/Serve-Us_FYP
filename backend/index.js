@@ -6,6 +6,10 @@ const customer_router = require('./routes/customer_routes')
 const appointment_router = require('./routes/appointment_routes')
 const user_router = require('./routes/user_routes')
 const portfolio_router = require('./routes/portfolio_routes')
+const service_router = require('./routes/service_routes')
+const bill_router = require('./routes/bill_routes')
+const payment_router = require('./routes/payment_routes')
+const feedback_router = require('./routes/feedback_routes')
 // const connectToDB = require('./mongodb/db_connection')
 
 
@@ -89,6 +93,11 @@ app.use('/customer', customer_router)
 app.use('/appointment', appointment_router)
 app.use('/user', user_router)
 app.use('/portfolio', portfolio_router)
+app.use('/service', service_router)
+app.use('/bill', bill_router)
+app.use('/payment', payment_router)
+app.use('/feedback', feedback_router)
+
 
 
 

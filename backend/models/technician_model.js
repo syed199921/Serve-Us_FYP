@@ -24,6 +24,10 @@ const technicianSchema = new mongoose.Schema({
     portfolio: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Portfolio'
+    }, 
+    feedbackScore: {
+        type: Number,
+        default: 0
     }
     
 })
