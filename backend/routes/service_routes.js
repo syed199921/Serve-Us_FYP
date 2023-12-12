@@ -1,10 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const {getCustomer} = require('../controllers/customer_controller')
+const {completeService} = require('../controllers/service_controller')
 //middleware
 router.use(express.json())
 
-router.get('/get_customer', getCustomer)
-
+router.post('/complete_service', completeService)
 
 module.exports = router

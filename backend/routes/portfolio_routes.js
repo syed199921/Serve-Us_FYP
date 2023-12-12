@@ -1,11 +1,20 @@
-// const express = require('express')
-// const router = express.Router()
+const express = require('express')
+const router = express.Router()
 
-// //middleware
-// router.use(express.json())
+//middleware
+router.use(express.json())
 
-// const {getNearbyTechnicians} = require('../controllers/portfolio_controller')
+const {addProject, removeProject, editProject, addService, removeService, editService, addProfessionalSummary, viewPortfolio} = require("../controllers/portfolio_controller")
 
-// router.get('/nearby_technicians', getNearbyTechnicians )
+router.post('/add_project', addProject)
+router.delete('/remove_project', removeProject)
+router.post('/edit_project', editProject)
+router.post('/add_service', addService)
+router.delete('/remove_service', removeService)
+router.post('/edit_service', editService)
+router.post('/add_professional_summary', addProfessionalSummary)
+router.get('/view_portfolio', viewPortfolio)
 
-// module.exports = router
+
+
+module.exports = router

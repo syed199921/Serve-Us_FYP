@@ -1,5 +1,46 @@
 
 let technicians = require('../data/technicians.json')
+const Technician = require('../models/technician_model')
+const Portfolio = require('../models/portfolio_model')
+const User = require('../models/user_model')
+
+
+let getTechnician = async (req, res) => {
+    let {id} = req.body
+    let technician = null
+    try{
+        technician = await Technician.findById(id)
+    }catch(err){
+        return res.json({err: err.toString()})
+    }
+    return res.json({technician: technician})
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function haversineDistance(lat1, lon1, lat2, lon2) {
     const radians = (degrees) => (degrees * Math.PI) / 180;
     // Convert latitude and longitude from degrees to radians
@@ -21,14 +62,47 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
     return distance;
 };
 
-let getNearbyTechnicians = (req, res) => {
-    let {technicians, user} = req.body
-    let nearbyTechnicians = technicians.filter((technician) => {
-        if(haversineDistance(technician.latitude, technician.longitude, user.latitude, user.longitude) < 10){
-            return technician
+let getNearbyTechnicians = async (req, res) => {
+    let {customer, technicianType} = req.body
+    let customerUser = null
+    try{
+        customerUser = await User.findOne({"userId": customer})
+        // return res.json({customer: customerUser})
+    }
+    catch(err){
+        return res.json({err: err.toString()})
+    }
+    let technicianUsers = null
+    try{
+        technicianUsers = await User.find({role: "Technician"})
+        // return res.json({technicians: technicianUsers, customer: customer})
+    }catch(err){
+        return res.json({err: err.toString()})
+    }
+
+    let requiredTechnicians = await Promise.all( technicianUsers.map( async (technicianUser) => {
+        let technician = null
+        try{
+            technician = await Technician.findById(technicianUser.userId)
+        }catch(err){
+            return res.json({err: err.toString()})
+        }
+
+        if( technician.technicianType === technicianType){
+            return technicianUser
+        }
+    }))
+    requiredTechnicians = requiredTechnicians.filter(technician => technician != null)
+    // return res.json({technicians: requiredTechnicians, customer: customer})
+    let nearbyTechnicians = requiredTechnicians.map((technician) => {
+        if(haversineDistance(technician.latitude, technician.longitude, customerUser.latitude, customerUser.longitude) < 10){
+            let distance = haversineDistance(technician.latitude, technician.longitude, customerUser.latitude, customerUser.longitude)
+            return {"technician": technician, "distance": distance }
         }
     })
-    return res.json({nearbyTechnicians})
+
+    nearbyTechnicians = nearbyTechnicians.filter(technician => technician != null)
+    return res.json({"technicians": nearbyTechnicians, customer: customerUser})
 }
 
 let setLocation = (req, res) => {
@@ -64,8 +138,25 @@ return res.json({reviewScores: reviewScores})
 
 }
 
+let recommendTechnicians = (req, res) =>{
+    let {review_scores} = req.body
+    let topTechnicians = review_scores.sort((a, b) => {
+        return b["reviewScore"] - a["reviewScore"]
+    
+    })
+
+    // let recommendedTechnicians = 
+
+
+    return res.json({"recommendTechnicians": topTechnicians.slice(0, 3)})
+}
+
+
+
 module.exports = {
     getNearbyTechnicians,
     setLocation,
-    generateReviewScore
+    generateReviewScore,
+    recommendTechnicians,
+    getTechnician
 }
