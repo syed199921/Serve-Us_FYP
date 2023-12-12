@@ -4,23 +4,23 @@ let appointments = require('../data/appointments.json')
 const Appointment = require('../models/appointment_model')
 const Customer = require('../models/customer_model')
 const Technician = require('../models/technician_model')
-
-// let bookAppointment = (req, res) =>{
-//     let {technician_id, customer_id, date, time} = req.body
-
-//     let appointment = {
-//         technician: technician_id,
-//         customer: customer_id,
-//         date: date,
-//         time: time
-//     }
-
-//     return res.json({appointment: appointment})
-// }                 
-
-
+             
 let bookAppointment = async (req, res) => {
     let {technician, customer, date, time} = req.body;
+    let appointmentTechnician = null;
+    try{
+        appointmentTechnician = await Technician.findById(technician);
+    }catch(err){
+        return res.json({err: err.toString()})
+    }
+
+    let appointmentCustomer = null;
+    try{
+        appointmentCustomer = await Customer.findById(customer);
+       
+    }catch(err){
+        return res.json({err: err.toString()})
+    }
 
     let appointment = new Appointment({
         technician: technician,
@@ -30,7 +30,7 @@ let bookAppointment = async (req, res) => {
     });
     try {
          await appointment.save();
-        return res.json({appointment: appointment});
+        return res.json({appointment: appointment, customer: appointmentCustomer, technician: appointmentTechnician});
     } catch (error) {
         return res.status(500).json({error: error.toString()});
     }
@@ -61,7 +61,7 @@ let viewCustomerAppointments = async (req, res) => {
         return res.status(500).json({error: error.toString()});
     }
         let appointments = customerAppointments.map(async (appointment) => {
-            if(appointment.status !== 'cancelled'){
+            // if(appointment.status !== 'cancelled'){
             let technician = null;
             try {
                 technician = await Technician.findById(appointment.technician);
@@ -75,7 +75,7 @@ let viewCustomerAppointments = async (req, res) => {
                 time: appointment.time,
                 status: appointment.status
             };
-        }
+        // }
         });
         appointments = await Promise.all(appointments);
 
@@ -125,7 +125,7 @@ let updateAppointmentStatus = async (req, res) => {
 
     try{
         await appointment.save()
-        return res.json({message: "Appointment cancelled", appointment: appointment})
+        return res.json({message:`Appointment ${appointment.status}`, appointment: appointment})
     }catch(err){
         return res.json({err: err.toString()})
     }
@@ -140,8 +140,10 @@ let editAppointment = async (req, res) => {
     }catch(err){
         return res.json({err: err.toString()})
     }
+    if(appointment.status === "pending"){
     appointment.date = date
     appointment.time = time
+    
 
     try{
         await appointment.save()
@@ -149,6 +151,10 @@ let editAppointment = async (req, res) => {
     }catch(err){
         return res.json({err: err.toString()})
     }
+}
+else {
+    return res.json({message: `Appointment cannot be edited becasue the appointment is ${appointment.status}`})
+}
     
 }
 

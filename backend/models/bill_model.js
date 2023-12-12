@@ -5,26 +5,24 @@ const billSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Customer'
     },
+    technician:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Technician'
+    },
     service: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Service'
     },
-    dateAndTime: {
+    date: {
         type: String
     },
-    bankDetails:
-    [
-        {
-            bankName: {
-                type: String,
-                required: true
-            },
-            accountNumber: {
-                type: String,
-                required: true
-            }
-        }     
-    ], 
+    time: {
+        type: String
+    },
+    amount: {
+        type: Number,
+        required: true
+    },
     status: {
         type: String,
         enum: ['Pending', 'Paid'],

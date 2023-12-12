@@ -16,9 +16,15 @@ const serviceSchema = new mongoose.Schema({
     startDate: {
         type: String
     },
+    startTime: {
+        type: String
+    },
     endDate: {
         type: String
-    }
+    },
+    endTime: {
+        type: String
+    },
     
 })
 

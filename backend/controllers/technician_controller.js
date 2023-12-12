@@ -64,6 +64,14 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
 
 let getNearbyTechnicians = async (req, res) => {
     let {customer, technicianType} = req.body
+    let customerUser = null
+    try{
+        customerUser = await User.findOne({"userId": customer})
+        // return res.json({customer: customerUser})
+    }
+    catch(err){
+        return res.json({err: err.toString()})
+    }
     let technicianUsers = null
     try{
         technicianUsers = await User.find({role: "Technician"})
@@ -87,14 +95,14 @@ let getNearbyTechnicians = async (req, res) => {
     requiredTechnicians = requiredTechnicians.filter(technician => technician != null)
     // return res.json({technicians: requiredTechnicians, customer: customer})
     let nearbyTechnicians = requiredTechnicians.map((technician) => {
-        if(haversineDistance(technician.latitude, technician.longitude, customer.latitude, customer.longitude) < 10){
-            let distance = haversineDistance(technician.latitude, technician.longitude, customer.latitude, customer.longitude)
+        if(haversineDistance(technician.latitude, technician.longitude, customerUser.latitude, customerUser.longitude) < 10){
+            let distance = haversineDistance(technician.latitude, technician.longitude, customerUser.latitude, customerUser.longitude)
             return {"technician": technician, "distance": distance }
         }
     })
 
     nearbyTechnicians = nearbyTechnicians.filter(technician => technician != null)
-    return res.json({"technicians": nearbyTechnicians, customer: customer})
+    return res.json({"technicians": nearbyTechnicians, customer: customerUser})
 }
 
 let setLocation = (req, res) => {

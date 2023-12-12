@@ -18,16 +18,9 @@ const technicianSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: {
-        type: String
-    },
     portfolio: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Portfolio'
-    }, 
-    feedbackScore: {
-        type: Number,
-        default: 0
     }
     
 })

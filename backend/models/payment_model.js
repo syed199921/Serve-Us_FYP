@@ -7,20 +7,22 @@ const paymentSchema = new mongoose.Schema(
             ref: 'Bill',
             required: true
         },
+        paymentMethod: {
+            type: String
+        },
         amountPaid: {
             type: Number,
             required: true
         },
-        paymentMethod: {
-            type: String
+        remainingAmount: {
+            type: Number,
+            required: true
         },
         paymentDate: {
             type: String
         },
-        paymentStatus: {
-            type: String,
-            enum: ['Pending', 'Paid'],
-            default: 'Pending'
+        paymentTime:{
+            type: String
         }
         
     }

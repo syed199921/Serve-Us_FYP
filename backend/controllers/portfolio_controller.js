@@ -1,6 +1,30 @@
 const Portfolio = require("../models/portfolio_model")
 const Technician = require("../models/technician_model")
 
+let viewPortfolio = async (req, res) => {
+    let {technician_id} = req.body
+    let technician = null
+    try{
+        technician = await Technician.findById(technician_id)
+        // return res.json({portfolio: technician.portfolio})
+    }
+    catch(err){
+        return res.json({err: err.toString()})
+    }
+
+    let portfolio_id = technician.portfolio
+    let portfolio = null
+    try{
+        portfolio = await Portfolio.findById(portfolio_id)
+        return res.json({technician: technician, portfolio: portfolio})
+    }catch(err){
+        return res.json({err: err.toString()})
+    }
+
+
+
+}
+
 
 let addProfessionalSummary = async (req, res) => {
     let {professionalSummary, technicianId} = req.body
@@ -258,5 +282,6 @@ module.exports = {
     addService,
     removeService,
     editService,
-    addProfessionalSummary
+    addProfessionalSummary,
+    viewPortfolio
 }
